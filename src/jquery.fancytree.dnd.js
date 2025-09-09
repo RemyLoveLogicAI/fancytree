@@ -44,7 +44,11 @@
 		classDropReject = "fancytree-drop-reject",
 		classDropTarget = "fancytree-drop-target";
 
-	/* Convert number to string and prepend +/-; return empty string for 0.*/
+	/**
+	 * Convert number to string and prepend +/-; return empty string for 0.
+	 * @param {number} n
+	 * @returns {string}
+	 */
 	function offsetString(n) {
 		// eslint-disable-next-line no-nested-ternary
 		return n === 0 ? "" : n > 0 ? "+" + n : "" + n;
@@ -52,6 +56,10 @@
 
 	//--- Extend ui.draggable event handling --------------------------------------
 
+	/**
+	 * Register jQuery UI `connectToFancytree` plugin.
+	 * @private
+	 */
 	function _registerDnd() {
 		if (didRegisterDnd) {
 			return;
@@ -226,6 +234,11 @@
 	/******************************************************************************
 	 * Drag and drop support
 	 */
+	/**
+	 * Initialize drag and drop for a tree.
+	 * @param {Fancytree} tree
+	 * @private
+	 */
 	function _initDragAndDrop(tree) {
 		var dnd = tree.options.dnd || null,
 			glyph = tree.options.glyph || null;
@@ -385,6 +398,10 @@
 			dragLeave: null, // Callback(targetNode, data)
 		},
 
+		/**
+		 * Initialize the dnd extension.
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var tree = ctx.tree;
 			this._superApply(arguments);
@@ -415,7 +432,15 @@
 			}
 			_initDragAndDrop(tree);
 		},
-		/* Display drop marker according to hitMode ('after', 'before', 'over'). */
+		/**
+		 * Display drop marker according to hitMode ('after', 'before', 'over').
+		 * @param {FancytreeNode} sourceNode
+		 * @param {FancytreeNode} targetNode
+		 * @param {jQuery} helper
+		 * @param {string} hitMode
+		 * @param {boolean} accept
+		 * @private
+		 */
 		_setDndStatus: function (
 			sourceNode,
 			targetNode,
@@ -506,7 +531,7 @@
 				.toggleClass(classDropReject, accept === false);
 		},
 
-		/*
+		/**
 		 * Handles drag'n'drop functionality.
 		 *
 		 * A standard jQuery drag-and-drop process may generate these calls:
@@ -521,6 +546,15 @@
 		 *     _onDragEvent("drop", targetNode, sourceNode, event, ui, draggable);
 		 *     _onDragEvent("leave", targetNode, sourceNode, event, ui, draggable);
 		 *     _onDragEvent("stop", sourceNode, null, event, ui, draggable);
+		 *
+		 * @param {string} eventName
+		 * @param {FancytreeNode} node
+		 * @param {FancytreeNode} otherNode
+		 * @param {Event} event
+		 * @param {object} ui
+		 * @param {object} draggable
+		 * @returns {any}
+		 * @private
 		 */
 		_onDragEvent: function (
 			eventName,
@@ -788,6 +822,10 @@
 			return res;
 		},
 
+		/**
+		 * Cancel a drag operation.
+		 * @private
+		 */
 		_cancelDrag: function () {
 			var dd = $.ui.ddmanager.current;
 			if (dd) {

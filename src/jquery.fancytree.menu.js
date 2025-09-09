@@ -50,6 +50,9 @@
 		// `this`       : is this extension object
 		// `this._base` : the Fancytree instance
 		// `this._super`: the virtual function that was overridden (member of prev. extension or Fancytree)
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var opts = ctx.options,
 				tree = ctx.tree;
@@ -111,9 +114,16 @@
 				})
 				.hide();
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeDestroy: function (ctx) {
 			this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @private
+		 */
 		_openMenu: function (ctx) {
 			var data,
 				tree = ctx.tree,
@@ -156,6 +166,10 @@
 
 			opts.menu.open.call(tree, ctx.originalEvent, data);
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @private
+		 */
 		_closeMenu: function (ctx) {
 			var $menu,
 				tree = ctx.tree,

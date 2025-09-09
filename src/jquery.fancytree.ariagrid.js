@@ -59,14 +59,23 @@
 		},
 		NAV_KEYS = ["up", "down", "left", "right", "home", "end"];
 
-	/* Set aria-activedescendant on container to active cell's ID (generate one if required).*/
+	/**
+	 * Set aria-activedescendant on container to active cell's ID (generate one if required).
+	 * @param {Fancytree} tree
+	 * @param {jQuery} $target
+	 */
 	function setActiveDescendant(tree, $target) {
 		var id = $target ? $target.uniqueId().attr("id") : "";
 
 		tree.$container.attr("aria-activedescendant", id);
 	}
 
-	/* Calculate TD column index (considering colspans).*/
+	/**
+	 * Calculate TD column index (considering colspans).
+	 * @param {jQuery} $tr
+	 * @param {jQuery} $td
+	 * @returns {number}
+	 */
 	function getColIdx($tr, $td) {
 		var colspan,
 			td = $td.get(0),
@@ -82,7 +91,12 @@
 		return idx;
 	}
 
-	/* Find TD at given column index (considering colspans).*/
+	/**
+	 * Find TD at given column index (considering colspans).
+	 * @param {jQuery} $tr
+	 * @param {number} colIdx
+	 * @returns {jQuery | null}
+	 */
 	function findTdAtColIdx($tr, colIdx) {
 		var colspan,
 			res = null,
@@ -99,7 +113,13 @@
 		return res;
 	}
 
-	/* Find adjacent cell for a given direction. Skip empty cells and consider merged cells */
+	/**
+	 * Find adjacent cell for a given direction. Skip empty cells and consider merged cells
+	 * @param {Fancytree} tree
+	 * @param {jQuery} $target
+	 * @param {string} keyCode
+	 * @returns {jQuery | null}
+	 */
 	function findNeighbourTd(tree, $target, keyCode) {
 		var nextNode,
 			node,
@@ -145,7 +165,11 @@
 		return $tdNext && $tdNext.length ? $tdNext : null;
 	}
 
-	/* Return a descriptive string of the current mode. */
+	/**
+	 * Return a descriptive string of the current mode.
+	 * @param {Fancytree} tree
+	 * @returns {string}
+	 */
 	function getGridNavMode(tree) {
 		if (tree.$activeTd) {
 			return tree.forceNavMode ? "cell-nav" : "cell-edit";
@@ -153,7 +177,10 @@
 		return "row";
 	}
 
-	/* .*/
+	/**
+	 * Activate an embedded link.
+	 * @param {jQuery} $td
+	 */
 	function activateEmbeddedLink($td) {
 		// $td.find( "a" )[ 0 ].trigger("click");  // does not work (always)?
 		// $td.find( "a" ).trigger("click");
@@ -296,6 +323,10 @@
 			label: "Tree Grid", // Added as `aria-label` attribute
 		},
 
+		/**
+		 * Initialize the ariagrid extension.
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var tree = ctx.tree,
 				treeOpts = ctx.options,
@@ -398,6 +429,10 @@
 					}
 				});
 		},
+		/**
+		 * Handle node click events.
+		 * @param {EventData} ctx
+		 */
 		nodeClick: function (ctx) {
 			var targetType = ctx.targetType,
 				tree = ctx.tree,
@@ -434,6 +469,10 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * Handle node double-click events.
+		 * @param {EventData} ctx
+		 */
 		nodeDblclick: function (ctx) {
 			var tree = ctx.tree,
 				treeOpts = ctx.options,
@@ -453,6 +492,10 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * Add aria attributes to the node's TR element.
+		 * @param {EventData} ctx
+		 */
 		nodeRenderStatus: function (ctx) {
 			// Set classes for current status
 			var res,
@@ -489,6 +532,12 @@
 			}
 			return res;
 		},
+		/**
+		 * Handle node set active events.
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetActive: function (ctx, flag, callOpts) {
 			var $td,
 				node = ctx.node,
@@ -511,6 +560,10 @@
 			// tree.debug( "nodeSetActive: activeNode " + this.activeNode );
 			return this._superApply(arguments);
 		},
+		/**
+		 * Handle node keydown events.
+		 * @param {EventData} ctx
+		 */
 		nodeKeydown: function (ctx) {
 			var handleKeys,
 				inputType,
@@ -693,6 +746,12 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * Handle set option events.
+		 * @param {EventData} ctx
+		 * @param {string} key
+		 * @param {any} value
+		 */
 		treeSetOption: function (ctx, key, value) {
 			var tree = ctx.tree,
 				opts = tree.options.ariagrid;

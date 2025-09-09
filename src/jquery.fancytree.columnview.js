@@ -46,6 +46,10 @@
 		// `this`       : is this extension object
 		// `this._base` : the Fancytree instance
 		// `this._super`: the virtual function that was overriden (member of prev. extension or Fancytree)
+		/**
+		 * Initialize the columnview extension.
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var $tdFirst,
 				$ul,
@@ -146,6 +150,12 @@
 					return !handled;
 				});
 		},
+		/**
+		 * Handle node expand/collapse events.
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetExpanded: function (ctx, flag, callOpts) {
 			var $wait,
 				node = ctx.node,
@@ -160,6 +170,10 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * Handle node remove children events.
+		 * @param {EventData} ctx
+		 */
 		nodeRemoveChildren: function (ctx) {
 			// #899: node's children removed: remove child marker...
 			$(ctx.node.span).find("span.fancytree-cv-right").remove();
@@ -167,6 +181,14 @@
 			ctx.tree.$tdList.eq(ctx.node.getLevel()).nextAll().empty();
 			return this._superApply(arguments);
 		},
+		/**
+		 * Overload the `render` hook, to move child nodes into the next column.
+		 * @param {EventData} ctx
+		 * @param {boolean} force
+		 * @param {boolean} deep
+		 * @param {boolean} collapsed
+		 * @param {boolean} _recursive
+		 */
 		nodeRender: function (ctx, force, deep, collapsed, _recursive) {
 			// Render standard nested <ul> - <li> hierarchy
 			this._super(ctx, force, deep, collapsed, _recursive);

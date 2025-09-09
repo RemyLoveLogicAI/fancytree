@@ -323,6 +323,10 @@
 		// Local attributes
 		currentNode: null,
 
+		/**
+		 * Initialize the edit extension.
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var tree = ctx.tree;
 
@@ -340,6 +344,10 @@
 					}
 				});
 		},
+		/**
+		 * Handle node click events.
+		 * @param {EventData} ctx
+		 */
 		nodeClick: function (ctx) {
 			var eventStr = $.ui.fancytree.eventToString(ctx.originalEvent),
 				triggerStart = ctx.options.edit.triggerStart;
@@ -369,6 +377,10 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * Handle node double-click events.
+		 * @param {EventData} ctx
+		 */
 		nodeDblclick: function (ctx) {
 			if ($.inArray("dblclick", ctx.options.edit.triggerStart) >= 0) {
 				ctx.node.editStart();
@@ -376,6 +388,10 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * Handle node keydown events.
+		 * @param {EventData} ctx
+		 */
 		nodeKeydown: function (ctx) {
 			switch (ctx.originalEvent.which) {
 				case 113: // [F2]

@@ -57,6 +57,10 @@
 		EVENT_NAME_MAP[EVENT_NAMES[i]] = true;
 	}
 
+	/**
+	 * Get browser information.
+	 * @returns {string}
+	 */
 	function getBrowserInfo() {
 		var n = navigator.appName,
 			ua = navigator.userAgent,
@@ -72,6 +76,12 @@
 		return m.join(", ");
 	}
 
+	/**
+	 * Log a Fancytree event.
+	 * @param {Event} event
+	 * @param {object} data
+	 * @returns {any}
+	 */
 	function logEvent(event, data) {
 		var res,
 			self = this,
@@ -105,6 +115,14 @@
 		return res;
 	}
 
+	/**
+	 * Log a Fancytree hook.
+	 * @param {string} name
+	 * @param {object} this_
+	 * @param {IArguments} args
+	 * @param {any} extra
+	 * @returns {any}
+	 */
 	function logHook(name, this_, args, extra) {
 		var res,
 			ctx = args[0],
@@ -157,6 +175,9 @@
 		// Overide virtual methods for this extension.
 		// `this`       : is this Fancytree object
 		// `this._super`: the virtual function that was overridden (member of prev. extension or Fancytree)
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeCreate: function (ctx) {
 			var tree = ctx.tree,
 				opts = ctx.options;

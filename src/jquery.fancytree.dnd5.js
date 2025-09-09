@@ -69,7 +69,10 @@
 		LAST_HIT_MODE = null,
 		DRAG_OVER_STAMP = null; // Time when a node entered the 'over' hitmode
 
-	/* */
+	/**
+	 * Reset global variables used by this extension.
+	 * @private
+	 */
 	function _clearGlobals() {
 		DRAG_ENTER_RESPONSE = null;
 		DRAG_OVER_STAMP = null;
@@ -92,7 +95,11 @@
 		}
 	}
 
-	/* Convert number to string and prepend +/-; return empty string for 0.*/
+	/**
+	 * Convert number to string and prepend +/-; return empty string for 0.
+	 * @param {number} n
+	 * @returns {string}
+	 */
 	function offsetString(n) {
 		// eslint-disable-next-line no-nested-ternary
 		return n === 0 ? "" : n > 0 ? "+" + n : "" + n;
@@ -156,7 +163,12 @@
 	// 	return res;
 	// }
 
-	/* Implement auto scrolling when drag cursor is in top/bottom area of scroll parent. */
+	/**
+	 * Implement auto scrolling when drag cursor is in top/bottom area of scroll parent.
+	 * @param {Fancytree} tree
+	 * @param {Event} event
+	 * @returns {number}
+	 */
 	function autoScroll(tree, event) {
 		var spOfs,
 			scrollTop,
@@ -207,11 +219,14 @@
 		return scrolled;
 	}
 
-	/* Guess dropEffect from modifier keys.
+	/**
+	 * Guess dropEffect from modifier keys.
 	 * Using rules suggested here:
 	 *     https://ux.stackexchange.com/a/83769
-	 * @returns
-	 *     'copy', 'link', 'move', or 'none'
+	 * @param {Fancytree} tree
+	 * @param {Event} event
+	 * @param {string} effectDefault
+	 * @returns {string} 'copy', 'link', 'move', or 'none'
 	 */
 	function evalEffectModifiers(tree, event, effectDefault) {
 		var res = effectDefault;
@@ -256,17 +271,11 @@
 		// tree.debug("evalEffectModifiers: " + res);
 		return res;
 	}
-	/*
+	/**
 	 * Check if the previous callback (dragEnter, dragOver, ...) has changed
 	 * the `data` object and apply those settings.
-	 *
-	 * Safari:
-	 *     It seems that `dataTransfer.dropEffect` can only be set on dragStart, and will remain
-	 *     even if the cursor changes when [Alt] or [Ctrl] are pressed (?)
-	 * Using rules suggested here:
-	 *     https://ux.stackexchange.com/a/83769
-	 * @returns
-	 *     'copy', 'link', 'move', or 'none'
+	 * @param {Event} event
+	 * @param {object} data
 	 */
 	function prepareDropEffectCallback(event, data) {
 		var tree = data.tree,
@@ -309,6 +318,13 @@
 		// }
 	}
 
+	/**
+	 * Apply the drop effect value to the dataTransfer object.
+	 * @param {Event} event
+	 * @param {object} data
+	 * @param {boolean} allowDrop
+	 * @returns {string}
+	 */
 	function applyDropEffectCallback(event, data, allowDrop) {
 		var tree = data.tree,
 			dataTransfer = data.dataTransfer;
@@ -387,7 +403,8 @@
 		return REQUESTED_DROP_EFFECT;
 	}
 
-	/* Handle dragover event (fired every x ms) on valid drop targets.
+	/**
+	 * Handle dragover event (fired every x ms) on valid drop targets.
 	 *
 	 * - Auto-scroll when cursor is in border regions
 	 * - Apply restrictioan like 'preventVoidMoves'
@@ -396,7 +413,9 @@
 	 * - Trigger dragOver() callback to let user modify hit mode and drop effect
 	 * - Adjust the drop marker accordingly
 	 *
-	 * @returns hitMode
+	 * @param {Event} event
+	 * @param {object} data
+	 * @returns {string | null} hitMode
 	 */
 	function handleDragOver(event, data) {
 		// Implement auto-scrolling
@@ -545,8 +564,10 @@
 		return hitMode;
 	}
 
-	/*
-	 * Handle dragstart drag dragend events on the container
+	/**
+	 * Handle dragstart, drag, and dragend events on the container.
+	 * @param {Event} event
+	 * @returns {boolean | undefined}
 	 */
 	function onDragEvent(event) {
 		var json,
@@ -707,8 +728,10 @@
 				break;
 		}
 	}
-	/*
-	 * Handle dragenter dragover dragleave drop events on the container
+	/**
+	 * Handle dragenter, dragover, dragleave, and drop events on the container.
+	 * @param {Event} event
+	 * @returns {boolean | undefined}
 	 */
 	function onDropEvent(event) {
 		var json,
@@ -1063,6 +1086,10 @@
 			dragLeave: $.noop, // Callback(targetNode, data)
 		},
 
+		/**
+		 * Initialize the dnd5 extension.
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var $temp,
 				tree = ctx.tree,

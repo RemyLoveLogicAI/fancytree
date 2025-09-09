@@ -48,6 +48,9 @@
 			// beforeSelect: $.noop  // Return false to prevent cancel/save (data.input is available)
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			this._superApply(arguments);
 			this.$container.addClass("fancytree-ext-multi");
@@ -57,6 +60,9 @@
 				);
 			}
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeClick: function (ctx) {
 			var //pluginOpts = ctx.options.multi,
 				tree = ctx.tree,
@@ -101,6 +107,9 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeKeydown: function (ctx) {
 			var tree = ctx.tree,
 				node = ctx.node,

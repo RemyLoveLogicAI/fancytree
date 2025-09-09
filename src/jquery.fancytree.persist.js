@@ -98,8 +98,15 @@
 		};
 	}
 
-	/* Recursively load lazy nodes
+	/**
+	 * Recursively load lazy nodes.
+	 * @param {Fancytree} tree
+	 * @param {object} local
+	 * @param {string[]} keyList
 	 * @param {string} mode 'load', 'expand', false
+	 * @param {$.Deferred} dfd
+	 * @returns {$.Promise}
+	 * @private
 	 */
 	function _loadLazyNodes(tree, local, keyList, mode, dfd) {
 		var i,
@@ -251,7 +258,13 @@
 			types: "active expanded focus selected",
 		},
 
-		/* Generic read/write string data to cookie, sessionStorage or localStorage. */
+		/**
+		 * Generic read/write string data to cookie, sessionStorage or localStorage.
+		 * @param {string} key
+		 * @param {string | null} value
+		 * @returns {string | undefined}
+		 * @private
+		 */
 		_data: function (key, value) {
 			var store = this._local.store;
 
@@ -264,7 +277,13 @@
 			}
 		},
 
-		/* Append `key` to a cookie. */
+		/**
+		 * Append `key` to a cookie.
+		 * @param {string} type
+		 * @param {string} key
+		 * @param {boolean} flag
+		 * @private
+		 */
 		_appendKey: function (type, key, flag) {
 			key = "" + key; // #90
 			var local = this._local,
@@ -285,6 +304,9 @@
 			local._data(cookieName, keyList.join(delim));
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var tree = ctx.tree,
 				opts = ctx.options,
@@ -435,6 +457,11 @@
 			// Init the tree
 			return this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetActive: function (ctx, flag, callOpts) {
 			var res,
 				local = this._local;
@@ -450,6 +477,11 @@
 			}
 			return res;
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetExpanded: function (ctx, flag, callOpts) {
 			var res,
 				node = ctx.node,
@@ -463,6 +495,10 @@
 			}
 			return res;
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 */
 		nodeSetFocus: function (ctx, flag) {
 			var res,
 				local = this._local;
@@ -478,6 +514,11 @@
 			}
 			return res;
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetSelected: function (ctx, flag, callOpts) {
 			var res,
 				selNodes,

@@ -50,7 +50,12 @@
 			"select-multiple": [KC.LEFT, KC.RIGHT],
 		};
 
-	/* Calculate TD column index (considering colspans).*/
+	/**
+	 * Calculate TD column index (considering colspans).
+	 * @param {jQuery} $tr
+	 * @param {jQuery} $td
+	 * @returns {number}
+	 */
 	function getColIdx($tr, $td) {
 		var colspan,
 			td = $td.get(0),
@@ -66,7 +71,12 @@
 		return idx;
 	}
 
-	/* Find TD at given column index (considering colspans).*/
+	/**
+	 * Find TD at given column index (considering colspans).
+	 * @param {jQuery} $tr
+	 * @param {number} colIdx
+	 * @returns {jQuery | null}
+	 */
 	function findTdAtColIdx($tr, colIdx) {
 		var colspan,
 			res = null,
@@ -83,7 +93,12 @@
 		return res;
 	}
 
-	/* Find adjacent cell for a given direction. Skip empty cells and consider merged cells */
+	/**
+	 * Find adjacent cell for a given direction. Skip empty cells and consider merged cells.
+	 * @param {jQuery} $target
+	 * @param {number} keyCode
+	 * @returns {jQuery | null}
+	 */
 	function findNeighbourTd($target, keyCode) {
 		var $tr,
 			colIdx,
@@ -134,6 +149,9 @@
 			handleCursorKeys: true, // Allow UP/DOWN in inputs to move to prev/next node
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			// gridnav requires the table extension to be loaded before itself
 			this._requireExtension("table", true, true);
@@ -153,6 +171,11 @@
 				}
 			});
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetActive: function (ctx, flag, callOpts) {
 			var $outer,
 				opts = ctx.options.gridnav,
@@ -183,6 +206,9 @@
 				}
 			}
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeKeydown: function (ctx) {
 			var inputType,
 				handleKeys,

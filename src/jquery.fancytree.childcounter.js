@@ -59,6 +59,13 @@
 	//     var tree = $.ui.fancytree.getTree("#tree");
 	//     tree.countSelected(false);
 
+	/**
+	 * [ext-childcounter] Count selected nodes.
+	 * @param {boolean} [topOnly=false] only count top level nodes
+	 * @returns {number}
+	 * @alias Fancytree#countSelected
+	 * @requires jquery.fancytree.childcounter.js
+	 */
 	$.ui.fancytree._FancytreeClass.prototype.countSelected = function (
 		topOnly
 	) {
@@ -113,6 +120,13 @@
 	//
 	//     $("#tree").fancytree("widgetMethod1", "abc");
 
+	/**
+	 * [ext-childcounter] Sample widget method.
+	 * @param {any} arg1
+	 * @returns {any}
+	 * @alias Fancytree#widgetMethod1
+	 * @requires jquery.fancytree.childcounter.js
+	 */
 	$.ui.fancytree.prototype.widgetMethod1 = function (arg1) {
 		var tree = this.tree;
 		return arg1;
@@ -161,6 +175,11 @@
 		// Local functions are prefixed with an underscore '_'.
 		// Callable as `this._local._appendCounter()`.
 
+		/**
+		 * Append a counter to a node.
+		 * @param {FancytreeNode} bar
+		 * @private
+		 */
 		_appendCounter: function (bar) {
 			var tree = this;
 		},
@@ -176,9 +195,10 @@
 		//
 		// See also the [complete list of available hook functions](https://wwWendt.de/tech/fancytree/doc/jsdoc/Fancytree_Hooks.html).
 
-		/* Init */
-		// `treeInit` is triggered when a tree is initalized. We can set up classes or
-		// bind event handlers here...
+		/**
+		 * Initialize the childcounter extension.
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var tree = this, // same as ctx.tree,
 				opts = ctx.options,
@@ -191,14 +211,19 @@
 			this.$container.addClass("fancytree-ext-childcounter");
 		},
 
-		// Destroy this tree instance (we only call the default implementation, so
-		// this method could as well be omitted).
-
+		/**
+		 * Destroy the childcounter extension.
+		 * @param {EventData} ctx
+		 */
 		treeDestroy: function (ctx) {
 			this._superApply(arguments);
 		},
 
-		// Overload the `renderTitle` hook, to append a counter badge
+		/**
+		 * Overload the `renderTitle` hook, to append a counter badge.
+		 * @param {EventData} ctx
+		 * @param {string} title
+		 */
 		nodeRenderTitle: function (ctx, title) {
 			var node = ctx.node,
 				extOpts = ctx.options.childcounter,
@@ -223,7 +248,12 @@
 				);
 			}
 		},
-		// Overload the `setExpanded` hook, so the counters are updated
+		/**
+		 * Overload the `setExpanded` hook, so the counters are updated.
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetExpanded: function (ctx, flag, callOpts) {
 			var tree = ctx.tree,
 				node = ctx.node;

@@ -33,10 +33,20 @@
 	 */
 	var _assert = $.ui.fancytree.assert;
 
+	/**
+	 * Insert a new node as first child of a reference node.
+	 * @param {Node} referenceNode
+	 * @param {Node} newNode
+	 */
 	function insertFirstChild(referenceNode, newNode) {
 		referenceNode.insertBefore(newNode, referenceNode.firstChild);
 	}
 
+	/**
+	 * Insert a new node after a reference node.
+	 * @param {Node} referenceNode
+	 * @param {Node} newNode
+	 */
 	function insertSiblingAfter(referenceNode, newNode) {
 		referenceNode.parentNode.insertBefore(
 			newNode,
@@ -44,7 +54,11 @@
 		);
 	}
 
-	/* Show/hide all rows that are structural descendants of `parent`. */
+	/**
+	 * Show/hide all rows that are structural descendants of `parent`.
+	 * @param {FancytreeNode} parent
+	 * @param {boolean} flag
+	 */
 	function setChildRowVisibility(parent, flag) {
 		parent.visit(function (node) {
 			var tr = node.tr;
@@ -58,7 +72,11 @@
 		});
 	}
 
-	/* Find node that is rendered in previous row. */
+	/**
+	 * Find node that is rendered in previous row.
+	 * @param {FancytreeNode} node
+	 * @returns {FancytreeNode | null}
+	 */
 	function findPrevRowNode(node) {
 		var i,
 			last,
@@ -99,6 +117,9 @@
 		// Overide virtual methods for this extension.
 		// `this`       : is this extension object
 		// `this._super`: the virtual function that was overriden (member of prev. extension or Fancytree)
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var i,
 				n,
@@ -220,6 +241,9 @@
 					.attr("aria-readonly", true);
 			}
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRemoveChildMarkup: function (ctx) {
 			var node = ctx.node;
 			//		node.debug("nodeRemoveChildMarkup()");
@@ -230,6 +254,9 @@
 				}
 			});
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRemoveMarkup: function (ctx) {
 			var node = ctx.node;
 			//		node.debug("nodeRemoveMarkup()");
@@ -239,7 +266,14 @@
 			}
 			this.nodeRemoveChildMarkup(ctx);
 		},
-		/* Override standard render. */
+		/**
+		 * Override standard render.
+		 * @param {EventData} ctx
+		 * @param {boolean} force
+		 * @param {boolean} deep
+		 * @param {boolean} collapsed
+		 * @param {boolean} _recursive
+		 */
 		nodeRender: function (ctx, force, deep, collapsed, _recursive) {
 			var children,
 				firstTr,
@@ -373,6 +407,10 @@
 			// 	this.nodeRenderStatus(ctx);
 			// }
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {string} title
+		 */
 		nodeRenderTitle: function (ctx, title) {
 			var $cb,
 				res,
@@ -424,6 +462,9 @@
 			}
 			return res;
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRenderStatus: function (ctx) {
 			var indent,
 				node = ctx.node,
@@ -440,7 +481,12 @@
 				$(node.span).css({ paddingLeft: indent + "px" });
 			}
 		},
-		/* Expand node, return Deferred.promise. */
+		/**
+		 * Expand node, return Deferred.promise.
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetExpanded: function (ctx, flag, callOpts) {
 			// flag defaults to true
 			flag = flag !== false;
@@ -512,6 +558,12 @@
 				});
 			return dfd.promise();
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {string} status
+		 * @param {string} message
+		 * @param {string} details
+		 */
 		nodeSetStatus: function (ctx, status, message, details) {
 			if (status === "ok") {
 				var node = ctx.node,
@@ -522,10 +574,16 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeClear: function (ctx) {
 			this.nodeRemoveChildMarkup(this._makeHookContext(this.rootNode));
 			return this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeDestroy: function (ctx) {
 			this.$container.find("tbody").empty();
 			if (this.$source) {

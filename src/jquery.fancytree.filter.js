@@ -36,10 +36,20 @@
 		escapeHtml = $.ui.fancytree.escapeHtml,
 		exoticStartChar = "\uFFF7",
 		exoticEndChar = "\uFFF8";
+	/**
+	 * Escape regular expression characters.
+	 * @param {string} str
+	 * @returns {string}
+	 */
 	function _escapeRegex(str) {
 		return (str + "").replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
 	}
 
+	/**
+	 * Extract text from a string that may contain HTML tags.
+	 * @param {string} s
+	 * @returns {string}
+	 */
 	function extractHtmlText(s) {
 		if (s.indexOf(">") >= 0) {
 			return $("<div/>").html(s).text();
@@ -88,6 +98,14 @@
 		// Join back the modified `textPoses` to create final highlight markup.
 		return textPoses.join("");
 	}
+	/**
+	 * [ext-filter] Private implementation of the filter logic.
+	 * @param {function | string} filter
+	 * @param {boolean} branchMode
+	 * @param {object} _opts
+	 * @returns {integer} count
+	 * @private
+	 */
 	$.ui.fancytree._FancytreeClass.prototype._applyFilterImpl = function (
 		filter,
 		branchMode,
@@ -454,6 +472,11 @@
 			nodata: true, // Display a 'no data' status node if result is empty
 			mode: "dimm", // Grayout unmatched nodes (pass "hide" to remove unmatched node instead)
 		},
+		/**
+		 * Handle node load children events.
+		 * @param {EventData} ctx
+		 * @param {object[]|object|string|$.Promise|function} source
+		 */
 		nodeLoadChildren: function (ctx, source) {
 			var tree = ctx.tree;
 
@@ -467,6 +490,11 @@
 				}
 			});
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetExpanded: function (ctx, flag, callOpts) {
 			var node = ctx.node;
 
@@ -481,6 +509,9 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRenderStatus: function (ctx) {
 			// Set classes for current status
 			var res,

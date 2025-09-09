@@ -47,6 +47,9 @@
 			// selectedClass: "ui-state-active"
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var $el = ctx.widget.element,
 				opts = ctx.options.themeroller;
@@ -75,12 +78,18 @@
 				}
 			);
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeDestroy: function (ctx) {
 			this._superApply(arguments);
 			ctx.widget.element.removeClass(
 				"ui-widget ui-widget-content ui-corner-all"
 			);
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRenderStatus: function (ctx) {
 			var classes = {},
 				node = ctx.node,

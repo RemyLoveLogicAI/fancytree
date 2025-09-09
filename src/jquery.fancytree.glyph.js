@@ -166,6 +166,15 @@
 			},
 		};
 
+	/**
+	 * Set icon span class based on node properties.
+	 * @param {FancytreeNode} node
+	 * @param {HTMLSpanElement} span
+	 * @param {string} baseClass
+	 * @param {object} opts
+	 * @param {string} type
+	 * @private
+	 */
 	function setIcon(node, span, baseClass, opts, type) {
 		var map = opts.map,
 			icon = map[type],
@@ -219,6 +228,9 @@
 			map: {},
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var tree = ctx.tree,
 				opts = ctx.options.glyph;
@@ -235,6 +247,9 @@
 			this._superApply(arguments);
 			tree.$container.addClass("fancytree-ext-glyph");
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRenderStatus: function (ctx) {
 			var checkbox,
 				icon,
@@ -315,6 +330,12 @@
 			}
 			return res;
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {string} status
+		 * @param {string} message
+		 * @param {string} details
+		 */
 		nodeSetStatus: function (ctx, status, message, details) {
 			var res,
 				span,

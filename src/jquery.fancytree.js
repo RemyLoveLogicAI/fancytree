@@ -170,6 +170,11 @@
 	// 	TREE_ATTR_MAP[TREE_ATTRS[i]] = true;
 	// }
 
+	/**
+	 * Check if a condition is true and throw an error otherwise.
+	 * @param {boolean} cond
+	 * @param {string} msg
+	 */
 	function _assert(cond, msg) {
 		// TODO: see qunit.js extractStacktrace()
 		if (!cond) {
@@ -189,25 +194,44 @@
 		}
 	}
 
+	/**
+	 * Check if an object has a property.
+	 * @param {object} object
+	 * @param {string} property
+	 * @returns {boolean}
+	 */
 	function _hasProp(object, property) {
 		return Object.prototype.hasOwnProperty.call(object, property);
 	}
 
-	/* Replacement for the deprecated `jQuery.isFunction()`. */
+	/**
+	 * Replacement for the deprecated `jQuery.isFunction()`.
+	 * @param {any} obj
+	 * @returns {boolean}
+	 */
 	function _isFunction(obj) {
 		return typeof obj === "function";
 	}
 
-	/* Replacement for the deprecated `jQuery.trim()`. */
+	/**
+	 * Replacement for the deprecated `jQuery.trim()`.
+	 * @param {string} text
+	 * @returns {string}
+	 */
 	function _trim(text) {
 		return text == null ? "" : text.trim();
 	}
 
-	/* Replacement for the deprecated `jQuery.isArray()`. */
+	/** Replacement for the deprecated `jQuery.isArray()`. */
 	var _isArray = Array.isArray;
 
 	_assert($.ui, "Fancytree requires jQuery UI (http://jqueryui.com)");
 
+	/**
+	 * Safely call a console method.
+	 * @param {string} method
+	 * @param {Array} args
+	 */
 	function consoleApply(method, args) {
 		var i,
 			s,
@@ -234,14 +258,24 @@
 		};
 	}
 
-	/*Return true if x is a FancytreeNode.*/
+	/**
+	 * Return true if x is a FancytreeNode.
+	 * @param {any} x
+	 * @returns {boolean}
+	 */
 	function _isNode(x) {
 		return !!(x.tree && x.statusNodeType !== undefined);
 	}
 
-	/** Return true if dotted version string is equal or higher than requested version.
+	/**
+	 * Return true if dotted version string is equal or higher than requested version.
 	 *
 	 * See http://jsfiddle.net/mar10/FjSAN/
+	 * @param {string} dottedVersion
+	 * @param {number} major
+	 * @param {number} minor
+	 * @param {number} patch
+	 * @returns {boolean}
 	 */
 	function isVersionAtLeast(dottedVersion, major, minor, patch) {
 		var i,
@@ -279,6 +313,9 @@
 	 *
 	 * Example:
 	 * _simpleDeepMerge({}, o1, o2);
+	 * @param {object} target
+	 * @param {...object} sources
+	 * @returns {object}
 	 */
 	function _simpleDeepMerge() {
 		var options,
@@ -327,11 +364,18 @@
 		return target;
 	}
 
-	/** Return a wrapper that calls sub.methodName() and exposes
+	/**
+	 * Return a wrapper that calls sub.methodName() and exposes
 	 *  this             : tree
 	 *  this._local      : tree.ext.EXTNAME
 	 *  this._super      : base.methodName.call()
 	 *  this._superApply : base.methodName.apply()
+	 * @param {string} methodName
+	 * @param {Fancytree} tree
+	 * @param {object} base
+	 * @param {object} extension
+	 * @param {string} extName
+	 * @returns {function}
 	 */
 	function _makeVirtualFunction(methodName, tree, base, extension, extName) {
 		// $.ui.fancytree.debug("_makeVirtualFunction", methodName, tree, base, extension, extName);
@@ -373,7 +417,12 @@
 	}
 
 	/**
-	 * Subclass `base` by creating proxy functions
+	 * Subclass `base` by creating proxy functions for all methods.
+	 *
+	 * @param {Fancytree} tree
+	 * @param {object} base
+	 * @param {object} extension
+	 * @param {string} extName
 	 */
 	function _subclassObject(tree, base, extension, extName) {
 		// $.ui.fancytree.debug("_subclassObject", tree, base, extension, extName);
@@ -416,6 +465,12 @@
 		}
 	}
 
+	/**
+	 * Return a resolved promise.
+	 * @param {any} context
+	 * @param {Array} argArray
+	 * @returns {$.Promise}
+	 */
 	function _getResolvedPromise(context, argArray) {
 		if (context === undefined) {
 			return $.Deferred(function () {
@@ -427,6 +482,12 @@
 		}).promise();
 	}
 
+	/**
+	 * Return a rejected promise.
+	 * @param {any} context
+	 * @param {Array} argArray
+	 * @returns {$.Promise}
+	 */
 	function _getRejectedPromise(context, argArray) {
 		if (context === undefined) {
 			return $.Deferred(function () {
@@ -438,12 +499,23 @@
 		}).promise();
 	}
 
+	/**
+	 * Create a function that will resolve a deferred.
+	 * @param {$.Deferred} deferred
+	 * @param {any} context
+	 * @returns {function}
+	 */
 	function _makeResolveFunc(deferred, context) {
 		return function () {
 			deferred.resolveWith(context);
 		};
 	}
 
+	/**
+	 * Evaluate 'data-NAME' attributes with special treatment for 'data-json'.
+	 * @param {jQueryObject} $el
+	 * @returns {object}
+	 */
 	function _getElementDataAsDict($el) {
 		// Evaluate 'data-NAME' attributes with special treatment for 'data-json'.
 		var d = $.extend({}, $el.data()),
@@ -460,13 +532,22 @@
 		return d;
 	}
 
+	/**
+	 * Escape `'"<>/` for tooltips.
+	 * @param {string} s
+	 * @returns {string}
+	 */
 	function _escapeTooltip(s) {
 		return ("" + s).replace(REX_TOOLTIP, function (s) {
 			return ENTITY_MAP[s];
 		});
 	}
 
-	// TODO: use currying
+	/**
+	 * Create a matcher that checks for a substring in a node title.
+	 * @param {string} s
+	 * @returns {function}
+	 */
 	function _makeNodeTitleMatcher(s) {
 		s = s.toLowerCase();
 		return function (node) {
@@ -474,6 +555,11 @@
 		};
 	}
 
+	/**
+	 * Create a matcher that checks if a node title starts with a string.
+	 * @param {string} s
+	 * @returns {function}
+	 */
 	function _makeNodeTitleStartMatcher(s) {
 		var reMatch = new RegExp("^" + s, "i");
 		return function (node) {
@@ -609,7 +695,11 @@
 	}
 
 	FancytreeNode.prototype = /** @lends FancytreeNode# */ {
-		/* Return the direct child FancytreeNode with a given key, index. */
+		/**
+		 * Return the direct child FancytreeNode with a given key, index.
+		 * @param {string | number | FancytreeNode} ptr
+		 * @returns {FancytreeNode | null}
+		 */
 		_findDirectChild: function (ptr) {
 			var i,
 				l,
@@ -632,7 +722,10 @@
 		},
 		// TODO: activate()
 		// TODO: activateSilently()
-		/* Internal helper called in recursive addChildren sequence.*/
+		/**
+		 * Internal helper called in recursive addChildren sequence.
+		 * @param {NodeData[]} children
+		 */
 		_setChildren: function (children) {
 			_assert(
 				children && (!this.children || this.children.length === 0),
@@ -987,7 +1080,11 @@
 		findRelatedNode: function (where, includeHidden) {
 			return this.tree.findRelatedNode(this, where, includeHidden);
 		},
-		/* Apply selection state (internal use only) */
+		/**
+		 * Apply selection state (internal use only)
+		 * @param {boolean} state
+		 * @returns {boolean} true if state changed
+		 */
 		_changeSelectStatusAttrs: function (state) {
 			var changed = false,
 				opts = this.tree.options,
@@ -2444,6 +2541,10 @@
 		toggleSelected: function () {
 			return this.tree._callHook("nodeToggleSelected", this);
 		},
+		/**
+		 * Return a string representation of this node.
+		 * @returns {string}
+		 */
 		toString: function () {
 			return "FancytreeNode@" + this.key + "[title='" + this.title + "']";
 			// return "<FancytreeNode(#" + this.key + ", '" + this.title + "')>";
@@ -2813,12 +2914,25 @@
 			// this.debug("_hook", funcName, ctx.node && ctx.node.toString() || ctx.tree.toString(), args);
 			return fn.apply(this, args);
 		},
+		/**
+		 * Set a value in the temporary cache.
+		 * @param {string} key
+		 * @param {any} value
+		 * @param {number} ms
+		 * @private
+		 */
 		_setExpiringValue: function (key, value, ms) {
 			this._tempCache[key] = {
 				value: value,
 				expire: Date.now() + (+ms || 50),
 			};
 		},
+		/**
+		 * Get a value from the temporary cache.
+		 * @param {string} key
+		 * @returns {any}
+		 * @private
+		 */
 		_getExpiringValue: function (key) {
 			var entry = this._tempCache[key];
 			if (entry && entry.expire > Date.now()) {
@@ -2827,9 +2941,10 @@
 			delete this._tempCache[key];
 			return null;
 		},
-		/* Check if this tree has extension `name` enabled.
-		 *
+		/**
+		 * Check if this tree has extension `name` enabled.
 		 * @param {string} name name of the required extension
+		 * @returns {boolean}
 		 */
 		_usesExtension: function (name) {
 			return $.inArray(name, this.options.extensions) >= 0;
@@ -3628,8 +3743,14 @@
 			}, 0);
 			return dfd.promise();
 		},
-		/*
+		/**
 		 * Resolve a list of paths, relative to one parent node.
+		 * @param {$.Deferred} dfd
+		 * @param {object} opts
+		 * @param {FancytreeNode} parent
+		 * @param {string[][]} pathSegList
+		 * @returns {$.Promise}
+		 * @private
 		 */
 		_loadKeyPathImpl: function (dfd, opts, parent, pathSegList) {
 			var deferredList,
@@ -3853,14 +3974,21 @@
 			var res = this.rootNode.toDict(true, callback);
 			return includeRoot ? res : res.children;
 		},
-		/* Implicitly called for string conversions.
+		/**
+		 * Return a string representation of this tree.
 		 * @returns {string}
 		 */
 		toString: function () {
 			return "Fancytree@" + this._id;
 			// return "<Fancytree(#" + this._id + ")>";
 		},
-		/* _trigger a widget event with additional node ctx.
+		/**
+		 * _trigger a widget event with additional node ctx.
+		 * @param {string} type
+		 * @param {FancytreeNode} node
+		 * @param {Event} originalEvent
+		 * @param {object} extra
+		 * @returns {any}
 		 * @see EventData
 		 */
 		_triggerNodeEvent: function (type, node, originalEvent, extra) {
@@ -3872,7 +4000,13 @@
 			}
 			return res;
 		},
-		/* _trigger a widget event with additional tree data. */
+		/**
+		 * _trigger a widget event with additional tree data.
+		 * @param {string} type
+		 * @param {Event} originalEvent
+		 * @param {object} extra
+		 * @returns {any}
+		 */
 		_triggerTreeEvent: function (type, originalEvent, extra) {
 			// this.debug("_trigger(" + type + ")", ctx);
 			var ctx = this._makeHookContext(this, originalEvent, extra),
@@ -3980,7 +4114,15 @@
 			}
 			return true;
 		},
-		/* Call fn(node) for all nodes in vertical order, bottom up.
+		/**
+		 * Call fn(node) for all nodes in vertical order, bottom up.
+		 * @param {function} fn the callback function.
+		 *     Return false to stop iteration.
+		 * @param {object} [options]
+		 *     Defaults:
+		 *     {start: Last top node, reverse: false, includeSelf: true, includeHidden: false}
+		 * @returns {boolean} false if iteration was cancelled
+		 * @private
 		 */
 		_visitRowsUp: function (fn, opts) {
 			var children,
@@ -4635,7 +4777,11 @@
 
 				return resultDfd.promise();
 			},
-			/** [Not Implemented]  */
+			/**
+			 * [Not Implemented]
+			 * @param {EventData} ctx
+			 * @param {string[]} keyPathList
+			 */
 			nodeLoadKeyPath: function (ctx, keyPathList) {
 				// TODO: implement and improve
 				// http://code.google.com/p/dynatree/issues/detail?id=222
@@ -6264,8 +6410,10 @@
 					tree.render(true, false); // force, not-deep
 				}
 			},
-			/** A Node was added, removed, moved, or it's visibility changed.
+			/**
+			 * A Node was added, removed, moved, or it's visibility changed.
 			 * @param {EventData} ctx
+			 * @param {string} type
 			 */
 			treeStructureChanged: function (ctx, type) {},
 		}
@@ -6377,6 +6525,11 @@
 				lazyLoad: null,
 				postProcess: null,
 			},
+			/**
+			 * Log a deprecation warning if debugLevel >= 3.
+			 * @param {string} name
+			 * @private
+			 */
 			_deprecationWarning: function (name) {
 				var tree = this.tree;
 
@@ -6388,7 +6541,10 @@
 					);
 				}
 			},
-			/* Set up the widget, Called on first $().fancytree() */
+			/**
+			 * Set up the widget, Called on first $().fancytree()
+			 * @private
+			 */
 			_create: function () {
 				this.tree = new Fancytree(this);
 
@@ -6485,7 +6641,10 @@
 				//        this.tree._triggerTreeEvent("create");
 			},
 
-			/* Called on every $().fancytree() */
+			/**
+			 * Called on every $().fancytree()
+			 * @private
+			 */
 			_init: function () {
 				this.tree._callHook("treeInit", this.tree);
 				// TODO: currently we call bind after treeInit, because treeInit
@@ -6494,7 +6653,12 @@
 				this._bind();
 			},
 
-			/* Use the _setOption method to respond to changes to options. */
+			/**
+			 * Use the _setOption method to respond to changes to options.
+			 * @param {string} key
+			 * @param {any} value
+			 * @private
+			 */
 			_setOption: function (key, value) {
 				return this.tree._callHook(
 					"treeSetOption",
@@ -6504,7 +6668,10 @@
 				);
 			},
 
-			/** Use the destroy method to clean up any modifications your widget has made to the DOM */
+			/**
+			 * Use the destroy method to clean up any modifications your widget has made to the DOM
+			 * @private
+			 */
 			_destroy: function () {
 				this._unbind();
 				this.tree._callHook("treeDestroy", this.tree);
@@ -6516,14 +6683,20 @@
 
 			// -------------------------------------------------------------------------
 
-			/* Remove all event handlers for our namespace */
+			/**
+			 * Remove all event handlers for our namespace
+			 * @private
+			 */
 			_unbind: function () {
 				var ns = this.tree._ns;
 				this.element.off(ns);
 				this.tree.$container.off(ns);
 				$(document).off(ns);
 			},
-			/* Add mouse and kyboard handlers to the container */
+			/**
+			 * Add mouse and kyboard handlers to the container
+			 * @private
+			 */
 			_bind: function () {
 				var self = this,
 					opts = this.options,

@@ -34,7 +34,12 @@
 
 	var _assert = $.ui.fancytree.assert;
 
-	/* Return first occurrence of member from array. */
+	/**
+	 * Return first occurrence of member from array.
+	 * @param {Array} arr
+	 * @param {any} elem
+	 * @returns {boolean}
+	 */
 	function _removeArrayMember(arr, elem) {
 		// TODO: use Array.indexOf for IE >= 9
 		var i;
@@ -144,8 +149,10 @@
 		/*eslint-enable no-bitwise */
 	}
 
-	/*
+	/**
 	 * Return a unique key for node by calculating the hash of the parents refKey-list.
+	 * @param {FancytreeNode} node
+	 * @returns {string}
 	 */
 	function calcUniqueKey(node) {
 		var key,
@@ -370,11 +377,19 @@
 			highlightClones: false, // set 'fancytree-clone' class on any node that has at least one clone
 		},
 
+		/**
+		 * Initialize the clones extension.
+		 * @param {EventData} ctx
+		 */
 		treeCreate: function (ctx) {
 			this._superApply(arguments);
 			ctx.tree.refMap = {};
 			ctx.tree.keyMap = {};
 		},
+		/**
+		 * Initialize the clones extension.
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			this.$container.addClass("fancytree-ext-clones");
 			_assert(ctx.options.defaultKey == null);
@@ -385,11 +400,21 @@
 			// The default implementation loads initial data
 			this._superApply(arguments);
 		},
+		/**
+		 * Clear the clones extension data.
+		 * @param {EventData} ctx
+		 */
 		treeClear: function (ctx) {
 			ctx.tree.refMap = {};
 			ctx.tree.keyMap = {};
 			return this._superApply(arguments);
 		},
+		/**
+		 * Register a node with the clones extension.
+		 * @param {EventData} ctx
+		 * @param {boolean} add
+		 * @param {FancytreeNode} node
+		 */
 		treeRegisterNode: function (ctx, add, node) {
 			var refList,
 				len,
@@ -473,6 +498,10 @@
 			}
 			return this._super(ctx, add, node);
 		},
+		/**
+		 * Add clone class to the node's span.
+		 * @param {EventData} ctx
+		 */
 		nodeRenderStatus: function (ctx) {
 			var $span,
 				res,
@@ -490,6 +519,12 @@
 			}
 			return res;
 		},
+		/**
+		 * Add active clone class to the node's span.
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetActive: function (ctx, flag, callOpts) {
 			var res,
 				scpn = ctx.tree.statusClassPropName,

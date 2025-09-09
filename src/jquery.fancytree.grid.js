@@ -36,11 +36,13 @@
 		SCROLL_MODE = "wheel"; // 'wheel' | 'scroll'
 	// EPS = 1.0;
 
-	/*
-	 * [ext-grid] ...
-	 *
+	/**
+	 * [ext-grid] Add a vertical scrollbar to a table.
+	 * @param {HTMLTableElement} table
+	 * @returns {jQuery}
 	 * @alias Fancytree#_addScrollbar
 	 * @requires jquery.fancytree.grid.js
+	 * @private
 	 */
 	function _addScrollbar(table) {
 		var sbWidth = 10,
@@ -520,6 +522,9 @@
 		// Overide virtual methods for this extension.
 		// `this`       : is this extension object
 		// `this._super`: the virtual function that was overriden (member of prev. extension or Fancytree)
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			var i,
 				columnCount,
@@ -681,6 +686,9 @@
 					.attr("aria-readonly", true);
 			}
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeKeydown: function (ctx) {
 			var nextNode = null,
 				nextIdx = null,
@@ -719,6 +727,9 @@
 			}
 			return this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRemoveChildMarkup: function (ctx) {
 			var node = ctx.node;
 
@@ -730,6 +741,9 @@
 				}
 			});
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRemoveMarkup: function (ctx) {
 			var node = ctx.node;
 
@@ -740,7 +754,14 @@
 			}
 			this.nodeRemoveChildMarkup(ctx);
 		},
-		/* Override standard render. */
+		/**
+		 * Override standard render.
+		 * @param {EventData} ctx
+		 * @param {boolean} force
+		 * @param {boolean} deep
+		 * @param {boolean} collapsed
+		 * @param {boolean} _recursive
+		 */
 		nodeRender: function (ctx, force, deep, collapsed, _recursive) {
 			var children,
 				i,
@@ -846,6 +867,10 @@
 				}
 			}
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {string} title
+		 */
 		nodeRenderTitle: function (ctx, title) {
 			var $cb,
 				res,
@@ -899,6 +924,9 @@
 			}
 			return res;
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRenderStatus: function (ctx) {
 			var indent,
 				node = ctx.node,
@@ -915,7 +943,12 @@
 				$(node.span).css({ paddingLeft: indent + "px" });
 			}
 		},
-		/* Expand node, return Deferred.promise. */
+		/**
+		 * Expand node, return Deferred.promise.
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetExpanded: function (ctx, flag, callOpts) {
 			var node = ctx.node,
 				tree = ctx.tree;
@@ -987,11 +1020,17 @@
 				});
 			return dfd.promise();
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeClear: function (ctx) {
 			// this.nodeRemoveChildMarkup(this._makeHookContext(this.rootNode));
 			// this._renumberReset(); // Invalidate visible row cache
 			return this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeDestroy: function (ctx) {
 			this.$container.find("tbody").empty();
 			this.$container.off("wheel");
@@ -1001,6 +1040,10 @@
 			this._renumberReset(); // Invalidate visible row cache
 			return this._superApply(arguments);
 		},
+		/**
+		 * @param {EventData} ctx
+		 * @param {string} type
+		 */
 		treeStructureChanged: function (ctx, type) {
 			// debugger;
 			if (type !== "addNode" || ctx.tree.visibleNodeList) {

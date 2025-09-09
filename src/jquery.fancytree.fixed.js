@@ -65,6 +65,9 @@
 		// Overide virtual methods for this extension.
 		// `this`	   : is this extension object
 		// `this._super`: the virtual function that was overriden (member of prev. extension or Fancytree)
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeInit: function (ctx) {
 			this._requireExtension("table", true, true);
 			// 'fixed' requires the table extension to be loaded before itself
@@ -266,6 +269,9 @@
 			return res;
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeLoad: function (ctx) {
 			var self = this,
 				res = this._superApply(arguments);
@@ -279,6 +285,9 @@
 			return res;
 		},
 
+		/**
+		 * @private
+		 */
 		_makeTableResizable: function () {
 			var $wrapper = this.$fixedWrapper,
 				fcn = this.options.fixed.classNames,
@@ -311,10 +320,17 @@
 		//	nodeFixOrder: function(ctx) {
 		//	},
 
+		/**
+		 * @param {EventData} ctx
+		 * @param {object[]|object|string|$.Promise|function} source
+		 */
 		nodeLoadChildren: function (ctx, source) {
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRemoveChildMarkup: function (ctx) {
 			var node = ctx.node;
 
@@ -337,6 +353,9 @@
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRemoveMarkup: function (ctx) {
 			var node = ctx.node;
 
@@ -346,6 +365,11 @@
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetActive: function (ctx, flag, callOpts) {
 			var node = ctx.node,
 				cn = this.options._classNames;
@@ -358,10 +382,17 @@
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeKeydown: function (ctx) {
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 */
 		nodeSetFocus: function (ctx, flag) {
 			var node = ctx.node,
 				cn = this.options._classNames;
@@ -372,6 +403,13 @@
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} force
+		 * @param {boolean} deep
+		 * @param {boolean} collapsed
+		 * @param {boolean} _recursive
+		 */
 		nodeRender: function (ctx, force, deep, collapsed, _recursive) {
 			var res = this._superApply(arguments),
 				node = ctx.node,
@@ -418,10 +456,17 @@
 			return res;
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 * @param {string} title
+		 */
 		nodeRenderTitle: function (ctx, title) {
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		nodeRenderStatus: function (ctx) {
 			var res = this._superApply(arguments),
 				node = ctx.node;
@@ -442,6 +487,11 @@
 			return res;
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} flag
+		 * @param {object} callOpts
+		 */
 		nodeSetExpanded: function (ctx, flag, callOpts) {
 			var res,
 				self = this,
@@ -493,10 +543,19 @@
 			return res;
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 * @param {string} status
+		 * @param {string} message
+		 * @param {string} details
+		 */
 		nodeSetStatus: function (ctx, status, message, details) {
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeClear: function (ctx) {
 			var tree = ctx.tree,
 				$table = tree.widget.element,
@@ -511,10 +570,18 @@
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 * @param {boolean} add
+		 * @param {FancytreeNode} node
+		 */
 		treeRegisterNode: function (ctx, add, node) {
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @param {EventData} ctx
+		 */
 		treeDestroy: function (ctx) {
 			var tree = ctx.tree,
 				$table = tree.widget.element,
@@ -529,6 +596,9 @@
 			return this._superApply(arguments);
 		},
 
+		/**
+		 * @private
+		 */
 		_adjustColWidths: function () {
 			if (this.options.fixed.adjustColWidths) {
 				this.options.fixed.adjustColWidths.call(this);
@@ -573,6 +643,11 @@
 			_adjust($trWrapper, $brWrapper);
 		},
 
+		/**
+		 * @param {jQuery} $tr1
+		 * @param {jQuery} $tr2
+		 * @private
+		 */
 		_adjustRowHeight: function ($tr1, $tr2) {
 			var fcn = this.options.fixed.classNames;
 			if (!$tr2) {
@@ -587,6 +662,9 @@
 			$tr2.css("height", newHeight + 1);
 		},
 
+		/**
+		 * @private
+		 */
 		_adjustWrapperLayout: function () {
 			var $wrapper = this.$fixedWrapper,
 				fcn = this.options.fixed.classNames,
@@ -637,6 +715,9 @@
 			});
 		},
 
+		/**
+		 * @private
+		 */
 		_adjustLayout: function () {
 			var self = this,
 				$wrapper = this.$fixedWrapper,
