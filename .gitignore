@@ -14,3 +14,25 @@ sauce_connect.*
 .pyftpsync-meta.json
 .DS_Store
 test/ajax_101k.json
+
+# Build artifacts / caches (added by backlog triage)
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+dist/
+build/
+out/
+.next/
+.cache/
+*.log
+.egg-info/
+coverage/
+.turbo/
+.parcel-cache/
+target/debug/
+target/release/
+.DS_Store
+
